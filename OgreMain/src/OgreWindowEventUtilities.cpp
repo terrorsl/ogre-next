@@ -306,6 +306,75 @@ namespace Ogre
             win->destroy();
             return 0;
         }
+        case WM_MOUSEMOVE:
+            {
+                short xPos = GET_X_LPARAM( lParam );
+                short yPos = GET_Y_LPARAM( lParam );
+
+                for( index = _msListeners.lower_bound( win ); index != end; ++index )
+                    ( index->second )->mouseMoved( win, xPos, yPos );
+            }
+            break;
+        case WM_MOUSEWHEEL:
+            {
+                short xPos = GET_X_LPARAM( lParam );
+                short yPos = GET_Y_LPARAM( lParam );
+                short zDelta = GET_WHEEL_DELTA_WPARAM( wParam );
+
+                for( index = _msListeners.lower_bound( win ); index != end; ++index )
+                    ( index->second )->mouseWheel( win, xPos, yPos, zDelta );
+            }
+            break;
+        case WM_LBUTTONDOWN:
+            {
+                short xPos = GET_X_LPARAM( lParam );
+                short yPos = GET_Y_LPARAM( lParam );
+
+                for( index = _msListeners.lower_bound( win ); index != end; ++index )
+                    ( index->second )->mousePressed( win, xPos, yPos, WindowEventListener::MouseButtonType_Left );
+            }
+            break;
+        case WM_LBUTTONUP:
+            {
+                short xPos = GET_X_LPARAM( lParam );
+                short yPos = GET_Y_LPARAM( lParam );
+
+                for( index = _msListeners.lower_bound( win ); index != end; ++index )
+                    ( index->second )->mouseReleased( win, xPos, yPos, WindowEventListener::MouseButtonType_Left );
+            }
+            break;
+        case WM_RBUTTONDOWN:
+            {
+                short xPos = GET_X_LPARAM( lParam );
+                short yPos = GET_Y_LPARAM( lParam );
+
+                for( index = _msListeners.lower_bound( win ); index != end; ++index )
+                    ( index->second )
+                        ->mousePressed( win, xPos, yPos, WindowEventListener::MouseButtonType_Right );
+            }
+            break;
+        case WM_RBUTTONUP:
+            {
+                short xPos = GET_X_LPARAM( lParam );
+                short yPos = GET_Y_LPARAM( lParam );
+
+                for( index = _msListeners.lower_bound( win ); index != end; ++index )
+                    ( index->second )
+                        ->mouseReleased( win, xPos, yPos, WindowEventListener::MouseButtonType_Right );
+            }
+            break;
+        case WM_KEYDOWN:
+            {
+                for( index = _msListeners.lower_bound( win ); index != end; ++index )
+                    ( index->second )->keyboardPressed( win, (unsigned int)wParam );
+            }
+            break;
+        case WM_KEYUP:
+            {
+                for( index = _msListeners.lower_bound( win ); index != end; ++index )
+                    ( index->second )->keyboardReleased( win, (unsigned int)wParam );
+            }
+            break;
         }
 
         return DefWindowProc( hWnd, uMsg, wParam, lParam );

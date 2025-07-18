@@ -45,6 +45,7 @@ THE SOFTWARE.
 #        define NOMINMAX  // required to stop windows.h messing up std::min
 #    endif
 #    include <windows.h>
+#    include <windowsx.h>
 #elif OGRE_PLATFORM == OGRE_PLATFORM_APPLE && !defined( __LP64__ )
 #    include <Carbon/Carbon.h>
 #endif
@@ -63,6 +64,13 @@ namespace Ogre
     */
     class _OgreExport WindowEventListener
     {
+    public:
+        enum MouseButtonType
+        {
+            MouseButtonType_Left,
+            MouseButtonType_Right,
+            MouseButtonType_Middle
+        };
     public:
         virtual ~WindowEventListener() {}
 
@@ -114,6 +122,74 @@ namespace Ogre
             The Window which created this events
         */
         virtual void windowFocusChange( Window *rw ) { (void)rw; }
+
+        /**
+        @remarks
+            Mouse move
+        @param rw
+            The window which created this events
+        @param x
+            Cursor X coord
+        @param y
+            Cursor Y coord
+        */
+        virtual void mouseMoved( Window *rw, short x, short y) {}
+        
+        /**
+        @remarks
+            Mouse wheel move
+        @param rw
+            The window which created this events
+        @param x
+            Cursor X coord
+        @param y
+            Cursor Y coord
+        @param zdelta
+            Wheel delta
+        */
+        virtual void mouseWheel( Window *rw, short x, short y, short zdelta ){}
+        
+        /**
+        @remarks
+            Mouse button pressed
+        @param rw
+            The window which created this events
+        @param x
+            Cursor X coord
+        @param y
+            Cursor Y coord
+        @param button
+            Mouse button
+        */
+        virtual void mousePressed( Window *rw, short x, short y, MouseButtonType button ) {}
+
+        /**
+        @remarks
+            Mouse button released
+        @param rw
+            The window which created this events
+        @param x
+            Cursor X coord
+        @param y
+            Cursor Y coord
+        */
+        virtual void mouseReleased( Window *rw, short x, short y, MouseButtonType button ) {}
+
+        /**
+        @remarks
+            Keyboard button pressed
+        @param rw
+            The window which created this events
+        */
+        virtual void keyboardPressed( Window *rw, unsigned int key){}
+
+        /**
+        @remarks
+            Keyboard button released
+        @param rw
+            The window which created this events
+        */
+        virtual void keyboardReleased( Window *rw, unsigned int key) {}
     };
 
     /**
